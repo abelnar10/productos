@@ -68,9 +68,6 @@ addBtns.forEach(btn=>{
             //se compara el id del producto que entro con todoslos productos que estan en el carrito
             if(actualID == producto.id){
                 existe = true
-            }else{
-                //agregamos producto al arreglo del carrito
-                shoppingCartArray.push(actualProduct)
             }
         })
         //si el producto ya existe en el carrito subimos la cantidad 1 
@@ -79,30 +76,15 @@ addBtns.forEach(btn=>{
         }else{
             shoppingCartArray.push(actualProduct)
         }
-
         //dibujar en el dom el arreglo de compras actualizado
-        cartContainer.innerHTML = ``;
-        shoppingCartArray.forEach(item => {
-            cartContainer.innerHTML += `
-            <div class="cart-row">
-                <div class="cart-item cart-column">
-                    <img class="cart-item-image" src="${item.img}" width="100" height="100">
-                    <span class="cart-item-title">${item.title}</span>
-                </div>
-                <span class="cart-price cart-column">$${item.price}</span>
-                <div class="cart-quantity cart-column">
-                    <input class="cart-quantity-input" min="1" type="number" value="${item.quantity}">
-                    <button class="btn btn-danger" type="button">REMOVE</button>
-                </div>
-            </div>`
-
-        })
-
+        dibujarItemsCarrito();
         //actualizar el precio total
         //vamos a la funcion gettotal cada vez que tengamos un nuevo evento
         total = getTotal(); 
-        console.log(total) 
-
+        //actualiza el input de cantidad de un producto
+        actualizarNumeroItems();
+        //remueve el producto de el carrito
+        removeProducto();
     });
 });
 
@@ -121,7 +103,64 @@ function getTotal(){
 
 }
 
+function dibujarItemsCarrito(){
+    cartContainer.innerHTML = ``;
+        shoppingCartArray.forEach(item => {
+            cartContainer.innerHTML += `
+            <div class="cart-row">
+                <div class="cart-item cart-column">
+                    <img class="cart-item-image" src="${item.img}" width="100" height="100">
+                    <span class="cart-item-title">${item.title}</span>
+                </div>
+                <span class="cart-price cart-column">$${item.price}</span>
+                <div class="cart-quantity cart-column">
+                    <input class="cart-quantity-input" min="1" type="number" value="${item.quantity}">
+                    <button class="btn btn-danger" type="button">REMOVE</button>
+                </div>
+            </div>`
 
+        });
+        removeProducto();
+}
 
+function actualizarNumeroItems(){
+    //captura el input con su clase dentro del dom
+    let inputCantidad = document.querySelectorAll('.cart-quantity-input');
+    //convierto todos los inputs en un arreglo
+    inputCantidad = [...inputCantidad];
+    //recorro el arreglo cuando se pulse click en uno 
+    inputCantidad.forEach(item => {
+        item.addEventListener('click', event => {
+            //capturar el nombre del producto
+            let productActualNombre = event.target.parentElement.parentElement.childNodes[1].innerText;
+            let cantidadActual = parseInt(event.target.value);
+            //busco el objeto con ese nombre dentro del carrito
+            let productoActual = shoppingCartArray.find(item => item.title == productActualNombre);
+            //actualizar el nuero de la cantidad
+            productoActual.quantity = cantidadActual;
+            //actualizar el precio total 
+            getTotal();
+        })
+    })
+}
+
+function removeProducto(){
+    let btnRemove = document.querySelectorAll('.btn-danger');
+    btnRemove = [...btnRemove];
+    btnRemove.forEach(btn => {
+        btn.addEventListener('click', event=>{
+            //capturar nombre producto
+            let productActualNombre = event.target.parentElement.parentElement.childNodes[1].innerText;
+            //busco el objeto con ese producto
+            let productoActual = shoppingCartArray.find(item => item.title == productActualNombre);
+            // remover del arreglo carrito
+            shoppingCartArray = shoppingCartArray.filter(item => item != productoActual)
+            //actualizar el precio total 
+            dibujarItemsCarrito();
+            getTotal();
+            actualizarNumeroItems();
+        })
+    })
+}
 
 
