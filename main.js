@@ -171,7 +171,11 @@ document.querySelector("#submit").addEventListener("click", e => {
 
     //SE OBTIENE LOS PRODUCTOS CANTIDAD Y PRECIO DEL CARRITO
     shoppingCartArray.forEach(item => {
-    let texto =`*%0A${item.title}*%0APrecio: *${item.price}*%0ACantidad: *${item.quantity}*%0ATotal: *${item.price*item.quantity}* %0A%0A`;
+    let texto =`*${item.title}*
+    %0APrecio: $*${item.price}*
+    %0ACantidad: *${item.quantity}*
+    %0ATotal: $*${item.price*item.quantity}*
+    %0A%0A`;
     let valPro = item.price*item.quantity;
     totalWhatsapp = totalWhatsapp + valPro;
     productWap = productWap + texto; 
@@ -179,12 +183,10 @@ document.querySelector("#submit").addEventListener("click", e => {
 
     let url = `https://api.whatsapp.com/send?phone=${telefono}&text=
 		*Mith*%0A%0A
-		*Tu compra:*%0A
-		${productWap}%0A
-        *TOTAL: *%0A
-		*${totalWhatsapp}*%0A`;
+		Tu compra:%0A
+		${productWap}TOTAL:%0A
+		$*${totalWhatsapp}*%0A`;
 
     window.open(url);
 
   });
-  
