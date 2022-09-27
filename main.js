@@ -172,9 +172,9 @@ document.querySelector("#submit").addEventListener("click", e => {
     //SE OBTIENE LOS PRODUCTOS CANTIDAD Y PRECIO DEL CARRITO
     shoppingCartArray.forEach(item => {
     let texto =`*${item.title}*
-    %0APrecio: $*${item.price}*
+    %0APrecio: $ *${item.price}*
     %0ACantidad: *${item.quantity}*
-    %0ATotal: $*${item.price*item.quantity}*
+    %0ATotal: $ *${item.price*item.quantity}*
     %0A%0A`;
     let valPro = item.price*item.quantity;
     totalWhatsapp = totalWhatsapp + valPro;
@@ -185,7 +185,7 @@ document.querySelector("#submit").addEventListener("click", e => {
 		*Mith*%0A%0A
 		Tu compra:%0A
 		${productWap}TOTAL:%0A
-		$*${totalWhatsapp}*%0A`;
+		$ *${totalWhatsapp}*%0A`;
 
     window.open(url);
 
