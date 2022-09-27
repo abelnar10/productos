@@ -18,8 +18,6 @@ let totalElement = document.querySelector('.cart-total-title');
 let res = await fetch('https://ecommerce-668c5-default-rtdb.firebaseio.com/productos.json')
 let data = await res.json()
 
-console.log(data)
-
 //ARREGLO CON PRODUCTOS LIMITAMOS A 4 PRODUCTOS
 let productsArray = data
 
@@ -163,4 +161,30 @@ function removeProducto(){
     })
 }
 
+document.querySelector("#submit").addEventListener("click", e => {
+    e.preventDefault();
+  
+    //INGRESE UN NUMERO DE WHATSAPP VALIDO AQUI:
+    let telefono = "573107680539";
+    let productWap = " "; 
+    let totalWhatsapp = 0;
 
+    //SE OBTIENE LOS PRODUCTOS CANTIDAD Y PRECIO DEL CARRITO
+    shoppingCartArray.forEach(item => {
+    let texto =`Producto: *${item.title}* Precio: *${item.price}* Cantidad: *${item.quantity}* *Total: ${item.price*item.quantity}*%0A`;
+    let valPro = item.price*item.quantity;
+    totalWhatsapp = totalWhatsapp + valPro;
+    productWap = productWap + texto; 
+    });  
+
+    let url = `https://api.whatsapp.com/send?phone=${telefono}&text=
+		*Mith*%0A%0A
+		*Tu compra:*%0A
+		${productWap}%0A
+        *TOTAL: *%0A
+		*${totalWhatsapp}*%0A`;
+
+    window.open(url);
+
+  });
+  
