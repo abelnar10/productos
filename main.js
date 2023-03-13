@@ -27,10 +27,25 @@ productsArray.forEach(product => {
     productContainer.innerHTML += `
     <div class="shop-item" id="${product.id}">
         <span class="shop-item-title">${product.title}</span>
-        <img class="shop-item-image" src="${product.img}">
+        <img class="shop-item-image" onmouseout="this.src='${product.img}'" onmouseover="this.src='${product.img2}';" src="${product.img} ">
         <div class="shop-item-details">
             <span class="shop-item-price">$${product.price}</span>
             <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+            `
+            productContainer.innerHTML += `
+            `
+            for (var i in product.tallas) {
+                if (product.tallas[i] > 0) {
+                    productContainer.innerHTML += `
+                    <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>
+                    `
+                    
+                }else{
+                    productContainer.innerHTML += `
+                    <button class="btn btn-secondary" disabled>${i}</button>`       
+                }
+            };
+            productContainer.innerHTML += `
         </div>
     </div>`
 });
@@ -52,7 +67,9 @@ addBtns.forEach(btn=>{
         //AGREGO PRODUCTOS AL CARRITO
         
         //con travesnting dom se busca hasta encontrar el parent node con el id 
-        let actualID = parseInt(event.target.parentNode.parentNode.id);
+        //let actualID = parseInt(event.target.parentNode.parentNode.id);
+        let actualID = (btn.value)
+        console.log(actualID)
         //con el id encontrar el objeto actual
         let actualProduct = productsArray.find(item => item.id == actualID)
         //si la cantidaddel objeto no existe
@@ -104,6 +121,7 @@ function getTotal(){
 function dibujarItemsCarrito(){
     cartContainer.innerHTML = ``;
         shoppingCartArray.forEach(item => {
+            console.log(item)
             cartContainer.innerHTML += `
             <div class="cart-row">
                 <div class="cart-item cart-column">
