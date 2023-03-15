@@ -41,7 +41,7 @@ productsArray.forEach(product => {
                 if (product.tallas[i] > 0) {
                     let titulo = product.price+' '+i
                     productContainer.innerHTML += `
-                    <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>
+                    <button class="btn btn-primary shop-item-button btn-sm" type="button" value="${product.id}">${i}</button>
                     `
                     
                 }else{
