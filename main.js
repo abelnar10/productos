@@ -1,6 +1,9 @@
 //VARIABLES INIIALES
 //ARREGLO CON PRODUCTOS QUE ENTRAN EN EL CARRITO Y TOTAL
 let shoppingCartArray = [];
+
+let carros = [];
+
 let total = 0;
 // VARIABLE DEL DIV A DONDE VAN LOS ITEMS SE UTILIZA QUERYSELECTOR
 let productContainer = document.querySelector('.shop-items');
@@ -36,6 +39,7 @@ productsArray.forEach(product => {
             `
             for (var i in product.tallas) {
                 if (product.tallas[i] > 0) {
+                    let titulo = product.price+' '+i
                     productContainer.innerHTML += `
                     <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>
                     `
@@ -69,27 +73,33 @@ addBtns.forEach(btn=>{
         //con travesnting dom se busca hasta encontrar el parent node con el id 
         //let actualID = parseInt(event.target.parentNode.parentNode.id);
         let actualID = (btn.value)
-        console.log(actualID)
+        let actualTalla = (btn.textContent)
+        
         //con el id encontrar el objeto actual
-        let actualProduct = productsArray.find(item => item.id == actualID)
-        //si la cantidaddel objeto no existe
-        if(actualProduct.quantity === undefined){
-            //es el primer producto que ingresa a el carrito su cantidad es 1
-            actualProduct.quantity = 1;
-        }
+        let actualProduct = productsArray.find(item => item.id == actualID);
+
+        let itemCompra = {"nombre": actualProduct.title, "talla": actualTalla, "cantidad": 1 , "precio": 3000, "imagen": actualProduct.img}
+        
         // preguntar si el product ya existe en el carrito
         let  existe = false
-        shoppingCartArray.forEach(producto =>{
+        let i = 0
+        carros.forEach(producto =>{
             //se compara el id del producto que entro con todoslos productos que estan en el carrito
-            if(actualID == producto.id){
-                existe = true
+            if(itemCompra.nombre == producto.nombre){
+                if (itemCompra.talla == producto.talla) {
+                    existe = true
+                    let tal = toString(actualTalla)
+
+                    console.log(actualProduct.tallas.tal)
+                    let compra = carros[i]
+                    compra.cantidad = compra.cantidad+1
+                }
             }
+            i = i+1
         })
-        //si el producto ya existe en el carrito subimos la cantidad 1 
-        if (existe){
-            actualProduct.quantity++
-        }else{
-            shoppingCartArray.push(actualProduct)
+        //si el producto no existe en el carrito lo inserto en el array
+        if (existe == false){
+            carros.push(itemCompra)
         }
         //dibujar en el dom el arreglo de compras actualizado
         dibujarItemsCarrito();
@@ -101,6 +111,7 @@ addBtns.forEach(btn=>{
         //remueve el producto de el carrito
         removeProducto();
     });
+
 });
 
 //funcion para obtener el total de la cuenta 
@@ -118,19 +129,24 @@ function getTotal(){
 
 }
 
-function dibujarItemsCarrito(){
+//dibuja productos a comprar
+function dibujarItemsCarrito(productoTemp){
     cartContainer.innerHTML = ``;
-        shoppingCartArray.forEach(item => {
+        carros.forEach(item => {
+
             console.log(item)
+            console.log(item.img)
+            
             cartContainer.innerHTML += `
             <div class="cart-row">
                 <div class="cart-item cart-column">
-                    <img class="cart-item-image" src="${item.img}" width="100" height="100">
-                    <span class="cart-item-title">${item.title}</span>
+                    <img class="cart-item-image" src="${item.imagen}" width="100" height="100">
+                    <span class="cart-item-title">${item.nombre}</span>
+                    <span class="cart-item-title">${item.talla}</span>
                 </div>
-                <span class="cart-price cart-column">$${item.price}</span>
+                <span class="cart-price cart-column">$${item.precio}</span>
                 <div class="cart-quantity cart-column">
-                    <input class="cart-quantity-input" min="1" type="number" value="${item.quantity}">
+                    <input class="cart-quantity-input" min="1" type="number" value="${item.cantidad}">
                     <button class="btn btn-danger" type="button">REMOVE</button>
                 </div>
             </div>`
@@ -140,6 +156,7 @@ function dibujarItemsCarrito(){
 }
 
 function actualizarNumeroItems(){
+
     //captura el input con su clase dentro del dom
     let inputCantidad = document.querySelectorAll('.cart-quantity-input');
     //convierto todos los inputs en un arreglo
@@ -154,6 +171,8 @@ function actualizarNumeroItems(){
             let productoActual = shoppingCartArray.find(item => item.title == productActualNombre);
             //actualizar el nuero de la cantidad
             productoActual.quantity = cantidadActual;
+            inputCantidad.cantidad =+1 
+
             //actualizar el precio total 
             getTotal();
         })
