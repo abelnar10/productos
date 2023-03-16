@@ -41,7 +41,7 @@ productsArray.forEach(product => {
                 if (product.tallas[i] > 0) {
                     let titulo = product.price+' '+i
                     productContainer.innerHTML += `
-                    <button class="btn btn-primary shop-item-button btn-sm" type="button" value="${product.id}">${i}</button>
+                    <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>
                     `
                     
                 }else{
@@ -62,6 +62,7 @@ addBtns = [...addBtns];
 //VARIABLE DEL CONTAINER DEL CARRITO
 let cartContainer = document.querySelector('.cart-items');
 
+//click pasar al carrito
 addBtns.forEach(btn=>{
 //se captura ese boton
     //Buscar el id del producto seleccionado 
@@ -89,8 +90,6 @@ addBtns.forEach(btn=>{
                 if (itemCompra.talla == producto.talla) {
                     existe = true
                     let tal = toString(actualTalla)
-
-                    console.log(actualProduct.tallas.tal)
                     let compra = carros[i]
                     compra.cantidad = compra.cantidad+1
                 }
@@ -119,9 +118,9 @@ function getTotal(){
     //variable para suma de los productos  
     let sumTotal
     // devuelve con reduce un solo valor
-    let total =  shoppingCartArray.reduce( (sum, item)=>{
+    let total =  carros.reduce( (sum, item)=>{
         // suma el precio y multiplica por la cantidad 
-        sumTotal = sum + item.quantity*item.price
+        sumTotal = sum + item.cantidad*item.precio
         return sumTotal
     },0 )
     //a ese elemento le inserto el valor de la variabe total que en principio vale 0  
@@ -133,10 +132,6 @@ function getTotal(){
 function dibujarItemsCarrito(productoTemp){
     cartContainer.innerHTML = ``;
         carros.forEach(item => {
-
-            console.log(item)
-            console.log(item.img)
-            
             cartContainer.innerHTML += `
             <div class="cart-row">
                 <div class="cart-item cart-column">
@@ -146,8 +141,8 @@ function dibujarItemsCarrito(productoTemp){
                 </div>
                 <span class="cart-price cart-column">$${item.precio}</span>
                 <div class="cart-quantity cart-column">
-                    <input class="cart-quantity-input" min="1" type="number" value="${item.cantidad}">
-                    <button class="btn btn-danger" type="button">REMOVE</button>
+                    <input class="cart-quantity-input" name="${item.nombre}" id="${item.talla}" min="1" type="number" value="${item.cantidad}">
+                    <button class="btn btn-danger" name="${item.nombre}" id="${item.talla}"type="button">REMOVE</button>
                 </div>
             </div>`
 
@@ -155,6 +150,7 @@ function dibujarItemsCarrito(productoTemp){
         removeProducto();
 }
 
+//actualiza el numero de productos a comprar
 function actualizarNumeroItems(){
 
     //captura el input con su clase dentro del dom
@@ -164,14 +160,22 @@ function actualizarNumeroItems(){
     //recorro el arreglo cuando se pulse click en uno 
     inputCantidad.forEach(item => {
         item.addEventListener('click', event => {
-            //capturar el nombre del producto
-            let productActualNombre = event.target.parentElement.parentElement.childNodes[1].innerText;
+            //capturar el nombre del producto y el id y la cantidad
+            let productActualTalla = event.target.getAttribute("id");
+            let productActualNombre = event.target.getAttribute("name");
             let cantidadActual = parseInt(event.target.value);
-            //busco el objeto con ese nombre dentro del carrito
-            let productoActual = shoppingCartArray.find(item => item.title == productActualNombre);
-            //actualizar el nuero de la cantidad
-            productoActual.quantity = cantidadActual;
-            inputCantidad.cantidad =+1 
+
+            //se recorre el arreglo de los productos dentro del carrito
+            carros.forEach(producto =>{
+                //se compara el nombre del producto que di click con el arreglo dentro del carrito
+                if(productActualNombre == producto.nombre){
+                    //tambien se compara la talla
+                    if (productActualTalla == producto.talla) {
+                       producto.cantidad = cantidadActual
+                       inputCantidad.cantidad =+1
+                    }
+                }
+            })
 
             //actualizar el precio total 
             getTotal();
@@ -179,17 +183,27 @@ function actualizarNumeroItems(){
     })
 }
 
+//elimina producto del carrito
 function removeProducto(){
     let btnRemove = document.querySelectorAll('.btn-danger');
     btnRemove = [...btnRemove];
     btnRemove.forEach(btn => {
         btn.addEventListener('click', event=>{
             //capturar nombre producto
-            let productActualNombre = event.target.parentElement.parentElement.childNodes[1].innerText;
-            //busco el objeto con ese producto
-            let productoActual = shoppingCartArray.find(item => item.title == productActualNombre);
-            // remover del arreglo carrito
-            shoppingCartArray = shoppingCartArray.filter(item => item != productoActual)
+            let productActualTalla = event.target.getAttribute("id");
+            let productActualNombre = event.target.getAttribute("name");
+
+            //se recorre el arreglo de los productos dentro del carrito
+            carros.forEach(producto =>{
+                //se compara el nombre del producto que di click con el arreglo dentro del carrito
+                if(productActualNombre == producto.nombre){
+                    //tambien se compara la talla
+                    if (productActualTalla == producto.talla) {
+                        carros = carros.filter(item => item != producto)
+                       
+                    }
+                }
+            })
             //actualizar el precio total 
             dibujarItemsCarrito();
             getTotal();
@@ -197,6 +211,8 @@ function removeProducto(){
         })
     })
 }
+
+
 
 document.querySelector("#submit").addEventListener("click", e => {
     e.preventDefault();
@@ -207,14 +223,15 @@ document.querySelector("#submit").addEventListener("click", e => {
     let totalWhatsapp = 0;
 
     //SE OBTIENE LOS PRODUCTOS CANTIDAD Y PRECIO DEL CARRITO
-    shoppingCartArray.forEach(item => {
-    let texto =`*${item.title}*
-    %0APrecio: $ *${item.price}*
-    %0ACantidad: *${item.quantity}*
-    %0ATotal: $ *${item.price*item.quantity}*
+    carros.forEach(item => {
+    let texto =`*${item.nombre}*
+    %0APrecio: $ *${item.precio}*
+    %0ACantidad: *${item.cantidad}*
+    %0ATotal: $ *${item.precio*item.cantidad}*
     %0A%0A`;
-    let valPro = item.price*item.quantity;
+    let valPro = item.precio*item.cantidad;
     totalWhatsapp = totalWhatsapp + valPro;
+    console.log(totalWhatsapp)
     productWap = productWap + texto; 
     });  
 
