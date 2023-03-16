@@ -33,7 +33,6 @@ productsArray.forEach(product => {
         <img class="shop-item-image" onmouseout="this.src='${product.img}'" onmouseover="this.src='${product.img2}';" src="${product.img} ">
         <div class="shop-item-details">
             <span class="shop-item-price">$${product.price}</span>
-            <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
             `
             productContainer.innerHTML += `
             `
