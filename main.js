@@ -38,7 +38,6 @@ productsArray.forEach(product => {
             `
             for (var i in product.tallas) {
                 if (product.tallas[i] > 0) {
-                    let titulo = product.price+' '+i
                     productContainer.innerHTML += `
                     <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>
                     `
@@ -88,7 +87,6 @@ addBtns.forEach(btn=>{
             if(itemCompra.nombre == producto.nombre){
                 if (itemCompra.talla == producto.talla) {
                     existe = true
-                    let tal = toString(actualTalla)
                     let compra = carros[i]
                     compra.cantidad = compra.cantidad+1
                 }
@@ -224,8 +222,9 @@ document.querySelector("#submit").addEventListener("click", e => {
     //SE OBTIENE LOS PRODUCTOS CANTIDAD Y PRECIO DEL CARRITO
     carros.forEach(item => {
     let texto =`*${item.nombre}*
-    %0APrecio: $ *${item.precio}*
+    %0ATalla: $ *${item.talla}*
     %0ACantidad: *${item.cantidad}*
+    %0APrecio: $ *${item.precio}*
     %0ATotal: $ *${item.precio*item.cantidad}*
     %0A%0A`;
     let valPro = item.precio*item.cantidad;
