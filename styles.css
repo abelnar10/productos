@@ -57,7 +57,7 @@ html, body {
 }
 
 .container {
-    max-width: 900px;
+    max-width: 90%;
     margin: 0 auto;
     padding: 0 1.5em;
 }
@@ -137,7 +137,7 @@ html, body {
 }
 
 .shop-items {
-    display: flow-root;
+    display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
 }
@@ -243,3 +243,4 @@ html, body {
     margin: 40px auto 80px auto;
     font-size: 1.75em;
 }
+
