@@ -26,30 +26,30 @@ let productsArray = data
 
 //IMPRIMIR PRODUCTOS EN PANTALLA
 productsArray.forEach(product => {
+    let tallaProducto = dibujarTallas()
     // se utiliza innerHTML para decir que va ir sumar al contenido los datos del servidor
     productContainer.innerHTML += `
     <div class="shop-item" id="${product.id}">
         <span class="shop-item-title">${product.title}</span>
         <img class="shop-item-image" onmouseout="this.src='${product.img}'" onmouseover="this.src='${product.img2}';" src="${product.img} ">
         <div class="shop-item-details">
-            <span class="shop-item-price">$${product.price}</span>
-            `
-            productContainer.innerHTML += `
-            `
-            for (var i in product.tallas) {
-                if (product.tallas[i] > 0) {
-                    productContainer.innerHTML += `
-                    <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>
-                    `
-                    
-                }else{
-                    productContainer.innerHTML += `
-                    <button class="btn btn-secondary" disabled>${i}</button>`       
+            <span class="shop-item-price">$${product.price}</span> 
+            ${tallaProducto}`
+
+            function dibujarTallas() {
+                let hola = ' '
+                for (var i in product.tallas) {
+                    if (product.tallas[i] > 0) {
+                        hola = hola +`
+                        <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>`
+                    }else{
+                        hola = hola + `
+                        <button class="btn btn-secondary" disabled>${i}</button>`       
+                    }
                 }
-            };
-            productContainer.innerHTML += `
-        </div>
-    </div>`
+
+                return hola
+            }
 });
 
 // VARIABLE DEL BOTON QUE TIENE EL AGREGAR AL CARRITO
@@ -87,6 +87,7 @@ addBtns.forEach(btn=>{
             if(itemCompra.nombre == producto.nombre){
                 if (itemCompra.talla == producto.talla) {
                     existe = true
+                    let tal = toString(actualTalla)
                     let compra = carros[i]
                     compra.cantidad = compra.cantidad+1
                 }
@@ -222,14 +223,12 @@ document.querySelector("#submit").addEventListener("click", e => {
     //SE OBTIENE LOS PRODUCTOS CANTIDAD Y PRECIO DEL CARRITO
     carros.forEach(item => {
     let texto =`*${item.nombre}*
-    %0ATalla: $ *${item.talla}*
-    %0ACantidad: *${item.cantidad}*
     %0APrecio: $ *${item.precio}*
+    %0ACantidad: *${item.cantidad}*
     %0ATotal: $ *${item.precio*item.cantidad}*
     %0A%0A`;
     let valPro = item.precio*item.cantidad;
     totalWhatsapp = totalWhatsapp + valPro;
-    console.log(totalWhatsapp)
     productWap = productWap + texto; 
     });  
 
@@ -242,3 +241,4 @@ document.querySelector("#submit").addEventListener("click", e => {
     window.open(url);
 
   });
+
