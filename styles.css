@@ -169,6 +169,7 @@ html, body {
     width: 20%;
     font-size: 1.2em;
     color: #333;
+    margin-left: 20px;
 }
 
 .cart-quantity {
@@ -210,6 +211,7 @@ html, body {
     text-align: center;
     font-size: 1.2em;
     margin-right: 25px;
+    margin-left: 12px;
 }
 
 .cart-row:last-child {
@@ -242,5 +244,13 @@ html, body {
     display: block;
     margin: 40px auto 80px auto;
     font-size: 1.75em;
+}
+
+.btn-carrito {
+
+    position: fixed;
+    width: 30%;
+    margin-left: 70%;
+    z-index: 1000;
 }
 
