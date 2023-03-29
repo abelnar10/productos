@@ -5,7 +5,6 @@
 * {
     box-sizing: border-box;
     font-family: var(--font);
-    color: #777;
 }
 
 html, body {
@@ -247,10 +246,12 @@ html, body {
 }
 
 .btn-carrito {
-
     position: fixed;
-    width: 30%;
-    margin-left: 70%;
     z-index: 1000;
+    right: 2%;
+    margin-top: 2%;
 }
 
+#compraAct {
+    display: none;
+}
