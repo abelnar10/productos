@@ -68,7 +68,7 @@ addBtns.forEach(btn => {
     btn.addEventListener('click', event => {
         //cuando damos click en el boton 
         //AGREGO PRODUCTOS AL CARRITO
-
+        borrarCarritoVacio();
         //con travesnting dom se busca hasta encontrar el parent node con el id 
         //let actualID = parseInt(event.target.parentNode.parentNode.id);
         let actualID = (btn.value)
@@ -211,6 +211,12 @@ function removeProducto() {
     })
 }
 
+function borrarCarritoVacio() {
+    var x = document.getElementById("compraDes");
+        x.style.display = "none";
+    var x = document.getElementById("compraAct");
+        x.style.display = "block";
+}
 
 
 document.querySelector("#submit").addEventListener("click", e => {
