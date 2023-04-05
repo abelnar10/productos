@@ -245,13 +245,18 @@ html, body {
     font-size: 1.75em;
 }
 
-.btn-carrito {
-    position: fixed;
-    z-index: 1000;
-    right: 2%;
-    margin-top: 2%;
-}
-
 #compraAct {
     display: none;
+}
+
+.inicio {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.inicio video {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
 }
