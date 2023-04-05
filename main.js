@@ -247,4 +247,4 @@ document.querySelector("#submit").addEventListener("click", e => {
 
     window.open(url);
 
-});
+}); 
