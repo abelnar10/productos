@@ -18,6 +18,19 @@ let totalElement = document.querySelector('.cart-total-title');
 //.then(res => res.json())
 //.then(data => console.log(data));
 
+const miVideo = document.getElementById("miVideo");
+
+      // Configuración adicional del video
+      miVideo.controls = true; // Oculta los controles
+      miVideo.playsinline = true; // Permite la reproducción en línea en dispositivos móviles
+
+      // Reinicia el video desde el principio al finalizar la reproducción
+      miVideo.addEventListener("ended", function() {
+        this.currentTime = 0;
+        this.play();
+      });
+
+
 let res = await fetch('https://ecommerce-668c5-default-rtdb.firebaseio.com/productos.json')
 let data = await res.json()
 
@@ -213,9 +226,9 @@ function removeProducto() {
 
 function borrarCarritoVacio() {
     var x = document.getElementById("compraDes");
-        x.style.display = "none";
+    x.style.display = "none";
     var x = document.getElementById("compraAct");
-        x.style.display = "block";
+    x.style.display = "block";
 }
 
 
@@ -247,4 +260,6 @@ document.querySelector("#submit").addEventListener("click", e => {
 
     window.open(url);
 
-}); 
+});
+
+
