@@ -256,7 +256,7 @@ html, body {
     align-items: center;
     justify-content: center;
 }
-.inicio #video-container {
+.inicio #player {
     object-fit: cover;
     height: 100%;
     width: 100%;
