@@ -66,6 +66,8 @@ html, body {
     color: #333;
     text-align: center;
     font-size: 2.5em;
+    font-family: 'Bebas Neue', cursive;
+    
 }
 
 .btn {
@@ -118,6 +120,8 @@ html, body {
     font-size: 1.5em;
     color: #333;
     margin-bottom: 15px;
+    font-family: 'Bebas Neue', cursive;
+
 }
 
 .shop-item-image {
@@ -133,12 +137,22 @@ html, body {
 .shop-item-price {
     flex-grow: 1;
     color: #333;
+    font-family: 'Bebas Neue', cursive;
+    font-size: large;
 }
 
 .shop-items {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+}
+
+.shop-item-button {
+    margin-right: 7px;
+}
+
+.shop-item-button-disable {
+    margin-right: 7px;
 }
 
 .cart-header {
@@ -243,6 +257,12 @@ html, body {
     display: block;
     margin: 40px auto 80px auto;
     font-size: 1.75em;
+}
+
+.btn-coleccion {
+    font-family: 'Bebas Neue', cursive;
+    margin-right: 10px;
+    font-size: large;
 }
 
 #compraAct {
