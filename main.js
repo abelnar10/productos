@@ -32,8 +32,8 @@ productsArray.forEach(product => {
     <div class="shop-item" id="${product.id}">
         <span class="shop-item-title">${product.title}</span>
         <img class="shop-item-image" onmouseout="this.src='${product.img}'" onmouseover="this.src='${product.img2}';" src="${product.img} ">
+        <span class="shop-item-price">$${product.price}</span> 
         <div class="shop-item-details">
-            <span class="shop-item-price">$${product.price}</span> 
             ${tallaProducto}`
 
     function dibujarTallas() {
@@ -41,15 +41,16 @@ productsArray.forEach(product => {
         for (var i in product.tallas) {
             if (product.tallas[i] > 0) {
                 hola = hola + `
-                        <button class="btn btn-primary shop-item-button" type="button" value="${product.id}">${i}</button>`
+                        <button class="btn btn-dark shop-item-button" type="button" value="${product.id}">${i}</button>`
             } else {
                 hola = hola + `
-                        <button class="btn btn-secondary" disabled>${i}</button>`
+                        <button class="btn btn-secondary shop-item-button-disable" disabled>${i}</button>`
             }
         }
 
         return hola
     }
+    redireccionarPagina();
 });
 
 // VARIABLE DEL BOTON QUE TIENE EL AGREGAR AL CARRITO
@@ -140,7 +141,7 @@ function dibujarItemsCarrito() {
                 <span class="cart-price cart-column">$${item.precio}</span>
                 <div class="cart-quantity cart-column">
                     <input class="cart-quantity-input" name="${item.nombre}" id="${item.talla}" min="1" type="number" value="${item.cantidad}">
-                    <button class="btn btn-danger" name="${item.nombre}" id="${item.talla}"type="button">REMOVE</button>
+                    <button class="btn btn-danger material-symbols-outlined" name="${item.nombre}" id="${item.talla}"type="button">delete</button>
                 </div>
             </div>`
 
@@ -248,3 +249,7 @@ document.querySelector("#submit").addEventListener("click", e => {
     window.open(url);
 
 });
+
+function redireccionarPagina() {
+    setTimeout("location.href='#scrollspyHeading2'", 20000);
+  }
